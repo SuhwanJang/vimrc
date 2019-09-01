@@ -9,11 +9,7 @@ function! ale_linters#cpp#gcc#GetCommand(buffer, output) abort
 
     " -iquote with the directory the file is in makes #include work for
     "  headers in the same directory.
-    "
-    " `-o /dev/null` or `-o null` is needed to catch all errors,
-    " -fsyntax-only doesn't catch everything.
-    return '%e -S -x c++'
-    \   . ' -o ' . g:ale#util#nul_file
+    return '%e -S -x c++ -fsyntax-only'
     \   . ' -iquote ' . ale#Escape(fnamemodify(bufname(a:buffer), ':p:h'))
     \   . ale#Pad(l:cflags)
     \   . ale#Pad(ale#Var(a:buffer, 'cpp_gcc_options')) . ' -'

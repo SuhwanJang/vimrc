@@ -603,4 +603,4 @@ hi TabLineSel guifg=white guibg=#202020 gui=bold
 " COLOR LINKS DEFINE END
 
 " vim:et:nosta:sw=2:ts=8:
-" vim600:fdm=marker:fdl=1:
+:e .

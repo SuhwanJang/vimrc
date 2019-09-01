@@ -5,15 +5,13 @@ call ale#Set('c_cquery_executable', 'cquery')
 call ale#Set('c_cquery_cache_directory', expand('~/.cache/cquery'))
 
 function! ale_linters#c#cquery#GetProjectRoot(buffer) abort
-    " Try to find cquery configuration files first.
-    let l:config = ale#path#FindNearestFile(a:buffer, '.cquery')
+    let l:project_root = ale#path#FindNearestFile(a:buffer, 'compile_commands.json')
 
-    if !empty(l:config)
-        return fnamemodify(l:config, ':h')
+    if empty(l:project_root)
+        let l:project_root = ale#path#FindNearestFile(a:buffer, '.cquery')
     endif
 
-    " Fall back on default project root detection.
-    return ale#c#FindProjectRoot(a:buffer)
+    return !empty(l:project_root) ? fnamemodify(l:project_root, ':h') : ''
 endfunction
 
 function! ale_linters#c#cquery#GetInitializationOptions(buffer) abort

@@ -31,11 +31,7 @@ function! s:MenuController.showMenu()
         let l:done = 0
 
         while !l:done
-            if has('nvim')
-                mode
-            else
-                redraw!
-            endif
+            redraw!
             call self._echoPrompt()
 
             let l:key = nr2char(getchar())
@@ -68,7 +64,7 @@ function! s:MenuController._echoPrompt()
 
         echo "Menu: [" . join(shortcuts, ",") . "] (" . navHelp . " or shortcut): "
     else
-        echo "NERDTree Menu. " . navHelp . ", or the shortcuts indicated"
+        echo "NERDTree Menu. " . navHelp . " . or the shortcuts indicated"
         echo "========================================================="
 
         for i in range(0, len(self.menuItems)-1)

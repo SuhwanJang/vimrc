@@ -3,17 +3,15 @@ scriptencoding utf-8
 " Description: Utilities for ccls
 
 function! ale#handlers#ccls#GetProjectRoot(buffer) abort
-    " Try to find ccls configuration files first.
-    let l:config = ale#path#FindNearestFile(a:buffer, '.ccls-root')
+    let l:project_root = ale#path#FindNearestFile(a:buffer, '.ccls-root')
 
-    if empty(l:config)
-        let l:config = ale#path#FindNearestFile(a:buffer, '.ccls')
+    if empty(l:project_root)
+        let l:project_root = ale#path#FindNearestFile(a:buffer, 'compile_commands.json')
     endif
 
-    if !empty(l:config)
-        return fnamemodify(l:config, ':h')
+    if empty(l:project_root)
+        let l:project_root = ale#path#FindNearestFile(a:buffer, '.ccls')
     endif
 
-    " Fall back on default project root detection.
-    return ale#c#FindProjectRoot(a:buffer)
+    return !empty(l:project_root) ? fnamemodify(l:project_root, ':h') : ''
 endfunction

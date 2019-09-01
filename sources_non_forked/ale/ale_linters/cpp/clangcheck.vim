@@ -12,8 +12,7 @@ function! ale_linters#cpp#clangcheck#GetCommand(buffer) abort
     let l:build_dir = ale#Var(a:buffer, 'c_build_dir')
 
     if empty(l:build_dir)
-        let [l:root, l:json_file] = ale#c#FindCompileCommands(a:buffer)
-        let l:build_dir = ale#path#Dirname(l:json_file)
+        let l:build_dir = ale#path#Dirname(ale#c#FindCompileCommands(a:buffer))
     endif
 
     " The extra arguments in the command are used to prevent .plist files from

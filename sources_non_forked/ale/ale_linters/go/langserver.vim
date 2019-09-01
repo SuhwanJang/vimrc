@@ -15,9 +15,8 @@ function! ale_linters#go#langserver#GetCommand(buffer) abort
     endif
 
     let l:options = uniq(sort(l:options))
-    let l:env = ale#go#EnvString(a:buffer)
 
-    return l:env . join(extend(l:executable, l:options), ' ')
+    return join(extend(l:executable, l:options), ' ')
 endfunction
 
 call ale#linter#Define('go', {

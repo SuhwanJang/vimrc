@@ -159,8 +159,8 @@ endfunction
 " FUNCTION: s:Edit() {{{1
 " opens the NERDTreeBookmarks file for manual editing
 function! s:Bookmark.Edit()
-    call nerdtree#exec("wincmd w", 1)
-    call nerdtree#exec("edit ".g:NERDTreeBookmarksFile, 1)
+    execute "wincmd w"
+    execute "edit ".g:NERDTreeBookmarksFile
 endfunction
 
 " FUNCTION: Bookmark.getNode(nerdtree, searchFromAbsoluteRoot) {{{1

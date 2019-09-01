@@ -6,7 +6,7 @@
 let s:UI = {}
 let g:NERDTreeUI = s:UI
 
-" FUNCTION: s:UI.centerView() {{{1
+" FUNCTION: s:UI.centerView() {{{2
 " centers the nerd tree window around the cursor (provided the nerd tree
 " options permit)
 function! s:UI.centerView()
@@ -28,6 +28,7 @@ function! s:UI._dumpHelp()
         let help .= "\" ============================\n"
         let help .= "\" File node mappings~\n"
         let help .= "\" ". (g:NERDTreeMouseMode ==# 3 ? "single" : "double") ."-click,\n"
+        let help .= "\" <CR>,\n"
         if self.nerdtree.isTabTree()
             let help .= "\" ". g:NERDTreeMapActivateNode .": open in prev window\n"
         else
@@ -43,7 +44,6 @@ function! s:UI._dumpHelp()
         let help .= "\" ". g:NERDTreeMapPreviewSplit .": preview split\n"
         let help .= "\" ". g:NERDTreeMapOpenVSplit .": open vsplit\n"
         let help .= "\" ". g:NERDTreeMapPreviewVSplit .": preview vsplit\n"
-        let help .= "\" ". g:NERDTreeMapCustomOpen .": custom open\n"
 
         let help .= "\"\n\" ----------------------------\n"
         let help .= "\" Directory node mappings~\n"
@@ -52,7 +52,6 @@ function! s:UI._dumpHelp()
         let help .= "\" ". g:NERDTreeMapOpenRecursively .": recursively open node\n"
         let help .= "\" ". g:NERDTreeMapOpenInTab.": open in new tab\n"
         let help .= "\" ". g:NERDTreeMapOpenInTabSilent .": open in new tab silently\n"
-        let help .= "\" ". g:NERDTreeMapCustomOpen .": custom open\n"
         let help .= "\" ". g:NERDTreeMapCloseDir .": close parent of node\n"
         let help .= "\" ". g:NERDTreeMapCloseChildren .": close all child nodes of\n"
         let help .= "\"    current node recursively\n"
@@ -67,7 +66,6 @@ function! s:UI._dumpHelp()
         let help .= "\" ". g:NERDTreeMapPreview .": find dir in tree\n"
         let help .= "\" ". g:NERDTreeMapOpenInTab.": open in new tab\n"
         let help .= "\" ". g:NERDTreeMapOpenInTabSilent .": open in new tab silently\n"
-        let help .= "\" ". g:NERDTreeMapCustomOpen .": custom open\n"
         let help .= "\" ". g:NERDTreeMapDeleteBookmark .": delete bookmark\n"
 
         let help .= "\"\n\" ----------------------------\n"
@@ -254,7 +252,7 @@ endfunction
 " gets the line number of the root node
 function! s:UI.getRootLineNum()
     let rootLine = 1
-    while rootLine <= line('$') && getline(rootLine) !~# '^\(/\|<\)'
+    while getline(rootLine) !~# '^\(/\|<\)'
         let rootLine = rootLine + 1
     endwhile
     return rootLine
@@ -340,7 +338,7 @@ function! s:UI.restoreScreenState()
     if !has_key(self, '_screenState')
         return
     endif
-    call nerdtree#exec("silent vertical resize " . self._screenState['oldWindowSize'], 1)
+    exec("silent vertical resize " . self._screenState['oldWindowSize'])
 
     let old_scrolloff=&scrolloff
     let &scrolloff=0
@@ -360,7 +358,7 @@ function! s:UI.saveScreenState()
     let self._screenState['oldPos'] = getpos(".")
     let self._screenState['oldTopLine'] = line("w0")
     let self._screenState['oldWindowSize']= winwidth("")
-    call nerdtree#exec(win . "wincmd w", 1)
+    call nerdtree#exec(win . "wincmd w")
 endfunction
 
 " FUNCTION: s:UI.setShowHidden(val) {{{1
@@ -506,10 +504,10 @@ endfunction
 function! s:UI.toggleZoom()
     if exists("b:NERDTreeZoomed") && b:NERDTreeZoomed
         let size = exists("b:NERDTreeOldWindowSize") ? b:NERDTreeOldWindowSize : g:NERDTreeWinSize
-        call nerdtree#exec("silent vertical resize ". size, 1)
+        exec "silent vertical resize ". size
         let b:NERDTreeZoomed = 0
     else
-        call nerdtree#exec("vertical resize ". get(g:, 'NERDTreeWinSizeMax', ''), 1)
+        exec "vertical resize ". get(g:, 'NERDTreeWinSizeMax', '')
         let b:NERDTreeZoomed = 1
     endif
 endfunction

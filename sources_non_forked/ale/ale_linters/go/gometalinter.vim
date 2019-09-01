@@ -14,13 +14,11 @@ function! ale_linters#go#gometalinter#GetCommand(buffer) abort
     " be calculated to absolute paths in the Handler
     if l:lint_package
         return ale#path#BufferCdString(a:buffer)
-        \   . ale#go#EnvString(a:buffer)
         \   . '%e'
         \   . (!empty(l:options) ? ' ' . l:options : '') . ' .'
     endif
 
     return ale#path#BufferCdString(a:buffer)
-    \   . ale#go#EnvString(a:buffer)
     \   . '%e'
     \   . ' --include=' . ale#Escape(ale#util#EscapePCRE(l:filename))
     \   . (!empty(l:options) ? ' ' . l:options : '') . ' .'

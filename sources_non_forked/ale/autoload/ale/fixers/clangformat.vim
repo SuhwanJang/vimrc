@@ -13,15 +13,10 @@ function! ale#fixers#clangformat#GetExecutable(buffer) abort
 endfunction
 
 function! ale#fixers#clangformat#Fix(buffer) abort
-    let l:executable = ale#Escape(ale#fixers#clangformat#GetExecutable(a:buffer))
-    let l:filename = ale#Escape(bufname(a:buffer))
     let l:options = ale#Var(a:buffer, 'c_clangformat_options')
 
-    let l:command = l:executable . ' --assume-filename=' . l:filename
-
-    if l:options isnot# ''
-        let l:command .= ' ' . l:options
-    endif
-
-    return {'command': l:command}
+    return {
+    \   'command': ale#Escape(ale#fixers#clangformat#GetExecutable(a:buffer))
+    \       . ' ' . l:options,
+    \}
 endfunction

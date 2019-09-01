@@ -2,8 +2,7 @@
 " Description: gosimple for Go files
 
 function! ale_linters#go#gosimple#GetCommand(buffer) abort
-    return ale#path#BufferCdString(a:buffer) . ' '
-    \   . ale#go#EnvString(a:buffer) . 'gosimple .'
+    return ale#path#BufferCdString(a:buffer) . ' gosimple .'
 endfunction
 
 call ale#linter#Define('go', {

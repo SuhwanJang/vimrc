@@ -49,19 +49,11 @@ function! ale_linters#powershell#powershell#Handle(buffer, lines) abort
                 let l:matchcount = 1
             endif
 
-            " If the match is 0, it was a failed match
-            " probably due to an unexpected token which
-            " contained a newline. Reset matchcount. to
-            " continue to the next match
-            if !empty(l:match[1])
-                let l:item = {
-                \   'lnum': str2nr(l:match[1]),
-                \   'col': str2nr(l:match[2]),
-                \   'type': 'E',
-                \}
-            else
-                let l:matchcount = 0
-            endif
+            let l:item = {
+            \   'lnum': str2nr(l:match[1]),
+            \   'col': str2nr(l:match[2]),
+            \   'type': 'E',
+            \}
         elseif l:matchcount == 2
             " Second match[0] grabs the full line in order
             " to handles the text
@@ -92,8 +84,8 @@ endfunction
 
 call ale#linter#Define('powershell', {
 \   'name': 'powershell',
-\   'executable': function('ale_linters#powershell#powershell#GetExecutable'),
-\   'command': function('ale_linters#powershell#powershell#GetCommand'),
+\   'executable_callback': 'ale_linters#powershell#powershell#GetExecutable',
+\   'command_callback': 'ale_linters#powershell#powershell#GetCommand',
 \   'output_stream': 'stdout',
 \   'callback': 'ale_linters#powershell#powershell#Handle',
 \})
